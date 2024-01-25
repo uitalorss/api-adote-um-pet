@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    entrypoint: .docker/entrypoint.sh
+    container_name: adote-um-pet-api
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/home/app
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    container_name: adote-um-pet-db
+    restart: always
+    tty: true
+    ports:
+      - 5430:5432
+    volumes:
+      - .docker/dbdata:/var/lib/postgresql/dbdata
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=adoteumpetdb
